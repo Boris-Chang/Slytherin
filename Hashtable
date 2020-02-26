@@ -1,0 +1,140 @@
+#include<iostream>
+#include<cstring>
+#include<list>
+
+using namespace std;
+
+//Hashtable to implement 905,Jimmy
+
+class Hashtable
+{
+private:
+	static const int hasGroups = 10;
+	list < pair<int, string >> table[hasGroups];
+
+public:
+	bool isEmpty() const;
+	int HashFunctin(int key);
+	void insertItem(int key, string value);
+	void removeItem(int key);
+	string searchTable(int key);
+	void pringTable();
+};
+
+bool Hashtable::isEmpty() const {
+	int sum{};
+	for (int i{}; i < hasGroups; i++)
+	{
+		sum += table[i].size();
+	}
+	if (!sum)
+	{
+		return true;
+	}
+	return false;
+}
+
+int Hashtable::HashFunctin(int key)
+{
+	return key % hasGroups;//key:905 , int return , this function will spit out 5;
+}
+
+void Hashtable::insertItem(int key, string value)
+{
+	int hashValue = HashFunctin(key);
+	auto& cell = table[hashValue];
+	auto bItr = begin(cell);
+	bool keyExists = false;
+	for (; bItr != end(cell); bItr++)
+	{
+		if (bItr->first == key)
+		{
+			keyExists = true;
+			bItr->second = value;
+			cout << "[WARNING] Key exists. Value replaced." << endl;
+			break;
+		}
+	}
+	if (!keyExists)
+	{
+		cell.emplace_back(key,value);
+	}
+	return;
+}
+
+void Hashtable::removeItem(int key)
+{
+	int hashValue = HashFunctin(key);
+	auto& cell = table[hashValue];
+	auto bItr = begin(cell);
+	bool keyExists = false;
+	for (; bItr != end(cell); bItr++)
+	{
+		if (bItr->first == key)
+		{
+			keyExists = true;
+			bItr=cell.erase(bItr);
+			cout << "[INFO] Pair removed" << endl;
+			break;
+		}
+	}
+	if (!keyExists)
+	{
+		cout << "[WARNING] Key not found. Pair not removed." << endl;
+	}
+
+	return;
+}
+
+void Hashtable::pringTable()
+{
+	for (int i{}; i < hasGroups; i++)
+	{
+		if (table[i].size() == 0) continue;
+
+		auto bItr = table[i].begin();
+		for (; bItr != table[i].end(); bItr++)
+		{
+			cout << "[INFO] Key: " << bItr->first << " Value: " << bItr->second << endl;
+		}
+	}
+	return;
+}
+
+int main()
+{
+	Hashtable HT;
+
+	if (HT.isEmpty())
+	{
+		cout << "Correct answer.Good job." << endl;
+	}
+	else {
+		cout << "Oh oh. we need to check out code!" << endl;
+	}
+
+	HT.insertItem(905, "Jim");
+	HT.insertItem(112, "Bob"); 
+	HT.insertItem(756, "Sara");
+	HT.insertItem(860, "Tom");
+	HT.insertItem(191, "Boris");
+	HT.insertItem(929, "Allen");
+	HT.insertItem(183, "Sandy");
+	HT.insertItem(905, "Rudy");
+	
+	HT.pringTable();
+
+	HT.removeItem(929);
+	HT.removeItem(756);
+	HT.removeItem(100);
+
+	if (!HT.isEmpty())
+	{
+		cout << "Oh oh. we need to check out code!" << endl;
+	}
+	else {
+		cout << "Correct answer.Good job." << endl;
+	}
+	
+	return 0;
+}
