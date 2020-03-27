@@ -1,0 +1,47 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#include<numeric>
+#include<functional>
+using namespace std;
+
+template <class T>
+class SumPowers
+{
+private:
+	int power;
+public:
+	SumPowers(int p):power(p){}
+	const T operator()(const T& total, const T& value)
+	{
+		T v = value;
+		for (int i = 0; i < power - 1; ++i)
+		{
+			v = v * value;
+		}
+		return total + v;
+	}
+};
+
+template<class T>
+void Printinterval(T first, T last)
+{
+	for (; first != last; ++first)
+	{
+		cout << *first <<" ";
+	}
+	cout << endl;
+}
+
+int main()
+{
+	int a[] = { 1,2,3,4,5,6,7,8,9,10 };
+	const int SIZE = 10;
+	vector<int> v(a, a + SIZE);
+	int result = accumulate(v.begin(), v.end(), 0, SumPowers<int>(3));
+	Printinterval(v.begin(), v.end());
+	cout << result << endl;
+
+	return 0;
+
+}
