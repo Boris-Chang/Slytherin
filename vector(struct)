@@ -1,0 +1,26 @@
+#include<stdio.h>
+#include<algorithm>
+#include<vector>
+#include<iostream>
+using namespace std;
+
+typedef struct rect
+{
+     int id;
+     int length;
+     int weight;
+}Rect;
+
+int main()
+{
+    vector<Rect> vec;
+    Rect rect;
+    rect.id=1;
+    rect.length=13;
+    rect.weight=88;
+
+    vec.push_back(rect);
+    vector<Rect>::iterator it = vec.begin();
+    cout<<(*it).id<<" "<<(*it).length<<" "<<(*it).weight;
+    return 0;
+}
